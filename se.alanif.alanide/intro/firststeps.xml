@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+	<page id="sealanifalanide-firststeps" style="$theme$/html/firststeps.css" style-id="page">
+		<head src="head.html" />
+		<title style-id="intro-header">Hello $introTitle$</title>
+        <group id="navigation-links" filteredFrom="swt">
+            <group id="page-links" computed="true">
+            </group>
+            <group id="action-links">
+                <link url="http://org.eclipse.ui.intro/switchToLaunchBar" label="Workbench" id="workbench" style-id="$high-contrast$">
+                    <text>Go to the workbench</text>
+                </link>
+            </group>
+        </group>
+		<group id="page-content">
+			<group id="content-header" label="Your First Steps with the AlanIDE" filteredFrom="swt" />
+			<text style-id="page-title" filteredFrom="html">Your First Steps with the AlanIDE</text>
+			<text style-id="page-description">There is not much here yet.</text>
+			<!-- Add content here -->
+		</group>
+	</page>
+</introContent>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<extension id="AlanBuilder" name="Alan Builder"
+		point="org.eclipse.core.resources.builders">
+		<builder hasNature="true">
+			<run class="se.alanif.alanide.builders.AlanBuilder">
+			</run>
+		</builder>
+	</extension>
+	<extension id="AlanNature" name="Alan Project Nature"
+		point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run class="se.alanif.alanide.nature.AlanNature">
+			</run>
+		</runtime>
+		<builder id="se.alanif.alanide.AlanBuilder">
+		</builder>
+	</extension>
+	<extension id="application" point="org.eclipse.core.runtime.applications">
+		<application cardinality="singleton-global" icon="icons/AlanIDE.icns"
+			thread="main" visible="true">
+			<run class="se.alanif.alanide.AlanApplication">
+			</run>
+		</application>
+	</extension>
+	<extension id="alanide" point="org.eclipse.core.runtime.products">
+		<product application="se.alanif.alanide.application" name="AlanIDE">
+			<property name="windowImages"
+				value="icons/alanide16x16.png,icons/alanide32x32.png,icons/alanide48x48.png,icons/alanide64x64.png,icons/alanide128x128.png" />
+			<property name="aboutText" value="%aboutText" />
+			<property name="aboutImage" value="icons/about.gif" />
+			<property name="appName" value="AlanIDE" />
+			<property name="introBrandingImage" value="product:icons/alanide64x64.png"/>
+			<property name="introBrandingImageText" value="AlanIDE" />
+		 	<property name="introTitle" value="Welcome to the AlanIDE" />
+		 	<property name="introDescription-overview" value="The AlanIDE is an integrated developement environment for the special purpose language Alan.
+		 		&lt;p>Alan was designed to make it easy to write interactive fiction, also known as text adventures." />
+		 	<property name="introDescription-whatsnew" value="Here are the latest changes to the AlanIDE." />
+		 	<property name="introDescription-webresources" value="Here are some links to relevant sites on the web." />
+   <property
+         name="startupForegroundColor"
+         value="000000">
+   </property>
+   <property
+         name="startupMessageRect"
+         value="7,300,450,20">
+   </property>
+   <property
+         name="startupProgressRect"
+         value="0,320,532,10">
+   </property>
+   <property
+         name="preferenceCustomization"
+         value="plugin_customization.ini">
+   </property>
+		</product>
+	</extension>
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer class="se.alanif.alanide.preferences.AlanPreferenceInitializer" />
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page class="se.alanif.alanide.preferences.AlanPreferencePage"
+			id="se.alanif.alanide.preferences.alanPreferencePage" name="Alan">
+		</page>
+		<page category="se.alanif.alanide.preferences.alanPreferencePage"
+			class="se.alanif.alanide.preferences.AlanColoringPreferencePage" id="se.alanif.alanide.preferences.AlanColoringPage"
+			name="Syntax Coloring" />
+	</extension>
+	<extension point="org.eclipse.ui.ide.resourceFilters">
+		<filter selected="true" pattern="*.project">
+     <description>
+        Eclipse project files
+     </description>
+		</filter>
+  <filter
+        pattern="*.ifid"
+        selected="true">
+     <description>
+        Babel project IFID files
+     </description>
+  </filter>
+	</extension>
+	<extension point="org.eclipse.ui.editors">
+		<editor class="se.alanif.alanide.editors.AlanEditor"
+			contributorClass="se.alanif.alanide.editors.AlanEditorActionContributor"
+			extensions="alan, i" icon="icons/alan_doc.gif" id="se.alanif.alanide.alanEditor"
+			name="Alan Editor">
+		</editor>
+	</extension>
+	<extension point="org.eclipse.ui.newWizards">
+		<category id="se.alanif.alanide.alanWizards" name="Alan">
+		</category>
+		<wizard category="se.alanif.alanide.alanWizards" class="se.alanif.alanide.wizards.NewAlanFileWizard"
+			icon="icons/newalanfile_wiz.gif" id="se.alanif.alanide.newAlanFileWizard"
+			name="Alan Main File" project="false">
+			<description>
+				Create a new Alan main source file.
+         </description>
+		</wizard>
+		<wizard category="se.alanif.alanide.alanWizards"
+			class="se.alanif.alanide.wizards.NewAlanProjectWizard" icon="icons/newalanprj_wiz.gif"
+			id="se.alanif.alanide.newAlanProjectWizard" name="Alan Project"
+			project="true">
+			<description>
+				Create a new Alan Project.
+         </description>
+		</wizard>
+		<primaryWizard id="se.alanif.alanide.newAlanProjectWizard" />
+		<primaryWizard id="se.alanif.alanide.newAlanFileWizard" />
+	</extension>
+	<extension point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="se.alanif.alanide.alanPerspective">
+			<newWizardShortcut id="se.alanif.alanide.newAlanFileWizard">
+			</newWizardShortcut>
+			<newWizardShortcut id="se.alanif.alanide.newAlanProjectWizard">
+			</newWizardShortcut>
+		</perspectiveExtension>
+	</extension>
+	<extension name="Alan Development" point="org.eclipse.ui.perspectives">
+		<perspective id="se.alanif.alanide.alanPerspective" name="Alan Development"
+			class="se.alanif.alanide.views.AlanPerspectiveFactory">
+		</perspective>
+	</extension>
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="se.alanif.alanide.splashHandlers.AlanSplashHandler"
+            id="se.alanif.alanide.splashHandlers.alan">
+      </splashHandler>
+      <splashHandlerProductBinding
+            productId="se.alanif.alanide.alanide"
+            splashId="se.alanif.alanide.splashHandlers.alan">
+      </splashHandlerProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="se.alanif.alanide.views.AlanLabelProblemDecorator"
+            id="se.alanif.alanide.problemdecorator"
+            label="Alan Error and Warning Markers"
+            lightweight="true"
+            state="true">
+         <enablement>
+            <objectClass
+                  name="org.eclipse.core.resources.IResource">
+            </objectClass>
+         </enablement>
+         <description>
+            Alan resources error and warnings decorator
+         </description>
+      </decorator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <introProductBinding
+            introId="se.alanif.alanide.intro"
+            productId="se.alanif.alanide.alanide">
+      </introProductBinding>
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="se.alanif.alanide.intro">
+      </intro>
+      <introProductBinding
+            introId="se.alanif.alanide.intro"
+            productId="se.alanif.alanide.alanide">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+            configId="se.alanif.alanide.intro.config"
+            content="intro/alanideintrocontent.xml">
+      </configExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            configurer="org.eclipse.ui.internal.intro.universal.UniversalIntroConfigurer"
+            content="intro/rootIntroContent.xml"
+            id="se.alanif.alanide.intro.config"
+            introId="se.alanif.alanide.intro">
+         <presentation
+               home-page-id="root" standby-page-id="standby">
+            <implementation
+                  style="themes/shared/html/shared.css,$theme$/html/shared.css,$theme$/html/font-$fontStyle$.css,$theme$/html/$direction$.css"
+                  kind="html"
+                  os="win32,linux,macosx,solaris">
+            </implementation>
+            <implementation
+                  kind="swt">
+            </implementation>
+            <launchBar
+               	location="fastview" 
+            	bg="$launchbarBackground$"
+            	computed="true">
+            </launchBar>
+         </presentation>
+      </config>
+      <config
+            content="rootIntroContent.xml"
+            id="se.alanif.alanide.introConfigId"
+            introId="se.alanif.alanide.intro">
+         <presentation
+               home-page-id="root">
+            <implementation
+                  kind="html"
+                  os="win32,linux,macosx"
+                  style="content/shared.css">
+            </implementation>
+         </presentation>
+      </config>
+   </extension>
+   <extension
+      point="org.eclipse.ui.views">
+   <view
+         name="Progress View"
+         icon="icons/eview16/pview.gif"
+         category="org.eclipse.ui"
+         class="org.eclipse.ui.ExtensionFactory:progressView"
+         id="org.eclipse.ui.views.ProgressView">
+   </view>
+</extension>
+   </plugin>

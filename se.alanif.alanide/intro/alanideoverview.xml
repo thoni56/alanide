@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+	<page id="sealanifalanide-alanideoverview" style="$theme$/html/overview.css" style-id="page">
+		<head src="head.html" />
+		<title style-id="intro-header">AlanIDE Overview</title>
+		<include path="overview/navigation-links" />
+		<group id="page-content">
+			<group id="content-header" label="AlanIDE Overview"
+				filteredFrom="swt">
+			</group>
+			<text style-id="page-title" id="page-title" filteredFrom="html">AlanIDE Overview
+			</text>
+			<text style-id="page-description" id="page-description">There is not much here yet.
+			</text>
+			<!-- Add content here -->
+		</group>
+	</page>
+</introContent>

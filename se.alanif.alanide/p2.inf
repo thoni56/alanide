@@ -1,0 +1,3 @@
+instructions.configure=\
+  addRepository(type:0,location:http${#58}//alanif.se/updates/alanide);\
+  addRepository(type:1,location:http${#58}//alanif.se/updates/alanide);

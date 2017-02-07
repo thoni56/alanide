@@ -1,0 +1,658 @@
+import se.alanif.alanide.model.*;
+import java.util.ArrayList;
+
+COMPILER adventure
+
+	public AlanModel model;
+
+	private boolean notOpaqueContainer() {
+		Token next = scanner.Peek();
+		return la.kind != _opaque || next.kind != _container;
+	}
+	
+	private class AlanModelList extends ArrayList<AlanModel> {
+		private static final long serialVersionUID = 1L;
+	}
+
+IGNORECASE
+
+CHARACTERS
+	tab	=	'\t'.	/*  9 = tabulator */
+	lf	=	'\n'.	/* 10 = line feed */
+	cr	=	'\r'.	/* 13 = carriage return */
+
+	zero		= '0'.
+	zeroToThree	= zero + "123" .
+	octalDigit	= zero + "1234567" . 
+	nonZeroDigit	= "123456789".
+	digit     	= '0' + nonZeroDigit .
+	hexDigit	= digit + "ABCDEFabcdef" .
+	letter    	= 'A' .. 'Z' + 'a' .. 'z' + '_' + '$' +
+                          '\u00e0'..'\u00f6' + '\u00f8'..'\u00fe'.
+
+	char		= ANY - "'" - '\\' - cr - lf.
+	stringChar	= ANY - "\"".
+
+TOKENS
+	Identifier	= (letter {letter | digit | '_'})
+	                | ('\'' {char | '\\'} '\'').
+	Integer		= digit {digit}.
+	STRING		= '"' {stringChar | "\"\"" } '"'.
+	opaque		= "opaque".
+	container	= "container".
+	not		= "not".
+
+COMMENTS FROM "--" TO lf
+
+IGNORE lf + cr + tab
+
+PRODUCTIONS
+
+ adventure													(. model = new AlanModel(); .)
+ 	= [options]
+ 		{
+ 			declaration<out AlanModel declaration>			(. if (declaration != null) model.add(declaration); .)
+ 		}
+ 		[
+ 			start<out AlanModel start>						(. if (start != null) model.add(start); .)
+		]
+		.
+
+ options = ( "option" | "options" ) option { option }
+         .
+
+ option = ID [optionvalue] '.'
+        .
+ 
+ optionvalue = ID 
+             | Integer
+             .
+
+ declaration<out AlanModel declaration>							(. declaration = null; .)
+     = importstatement<out AlanModel importDeclaration>			(. declaration = importDeclaration; .)
+     | prompt<out AlanModel promptDeclaration>                  (. declaration = promptDeclaration; .)
+     | messages<out AlanModel messageDeclaration>				(. declaration = messageDeclaration; .)
+     | classdeclaration<out AlanModel classDeclaration>			(. declaration = classDeclaration; .)
+     | instance<out AlanModel instanceDeclaration>				(. declaration = instanceDeclaration; .)
+     | rule<out AlanModel ruleDeclaration>						(. declaration = ruleDeclaration; .)
+     | synonyms<out AlanModel synonymsDeclaration>				(. declaration = synonymsDeclaration; .)
+     | syntax<out AlanModel syntaxDeclaration>					(. declaration = syntaxDeclaration; .)
+     | verb<out AlanModel verbDeclaration>						(. declaration = verbDeclaration; .)
+     | addition<out AlanModel additionDeclaration>				(. declaration = additionDeclaration; .)
+     | event<out AlanModel eventDeclaration>					(. declaration = eventDeclaration; .)
+     .
+
+prompt<out AlanPrompt promptDeclaration>                        (. int start; .)
+    = "prompt"                                                  (. start = t.pos; .)
+    	statements                                              (. promptDeclaration = new AlanPrompt(start, t.pos-start+t.val.length()); .)
+    . 
+
+importstatement<out AlanImport importDeclaration>				(. int start; String name; .)
+	= "import"													(. start = t.pos; .)
+		 ID														(. if (t.val.charAt(0) == '\'') name = t.val.substring(1, t.val.length()-1); else name = t.val; .)
+    	'.'														(. importDeclaration = new AlanImport(name, start, t.pos-start+t.val.length()); .)
+    .
+
+ attributes<out AlanModelList attributes>						(. attributes = new AlanModelList(); .)
+ 	= attributedeclaration<out AlanAttribute attribute>			(. attributes.add(attribute); .)
+		{
+	 		attributedeclaration<out AlanAttribute attribute2>	(. attributes.add(attribute2); .)
+	 	}
+	.
+
+ attributedeclaration<out AlanAttribute attribute>
+	= attributedefinition<out AlanAttribute definition>			(. attribute = definition; .)
+		'.'
+	.
+
+ attributedefinition<out AlanAttribute attribute>				(. boolean not = false; int start = 0; String name; String kind = "boolean"; .)
+	= ["not"													(. not = true; start = t.pos; .)
+		]
+		ID														(. if (!not) start = t.pos; name = t.val; .)
+		[
+			attributevalue<out String valueKind>				(. kind = valueKind; .)
+		]														(. attribute = new AlanAttribute(name, kind, start, t.pos-start+t.val.length()); .)
+	.
+
+ attributevalue<out String kind>								(. kind = ""; .)
+	= [ "-" ] Integer											(. kind = "integer"; .)
+	| STRING													(. kind = "string"; .)
+	| ID														(. kind = "reference"; .)
+	| "{" [setmembers] "}"										(. kind = "set"; .)
+	.
+
+ setmembers = setmember { "," setmember }
+            .
+
+ setmember = what 
+           | [ "-" ] Integer 
+           | STRING 
+           .
+
+ synonyms<out AlanSynonym synonyms>							(. int start; .)
+ 	= "synonyms"											(. start = t.pos; synonyms = new AlanSynonym("Synonyms", start, 0);.)
+ 		synonym<out AlanSynonym synonym>					(. synonyms.add(synonym); .)
+ 		{
+ 			synonym<out AlanSynonym synonym2>				(. synonyms.add(synonym2); .)
+ 		}													(. synonyms.length = t.pos-start+t.val.length(); .)
+    .
+
+ synonym<out AlanSynonym synonym>							(. int start; .)
+ 	= idlist<out Token firstId>								(. start = firstId.pos; .)
+ 		"=" ID												(. synonym = new AlanSynonym("for " + t.val, start, t.pos-start+t.val.length()); .)
+ 		'.'
+     .
+
+ messages<out AlanMessage message>						(. int start; .)
+ 	= "message"											(. start = t.pos; .)
+ 		message<out AlanMessage message2>				(. message = new AlanMessage("Messages", start, 0); message.add(message2); .)
+ 		{
+ 			message<out AlanMessage message3>			(. message.add(message3); .)
+ 		}												(. message.length = t.pos-start+t.val.length(); .)
+	.
+
+ message<out AlanMessage message>						(. int start; String name; .)
+ 	= ID												(. start = t.pos; name = t.val; .)
+ 		":" statements									(. message = new AlanMessage(name, start, t.pos-start+t.val.length()); .)
+	.
+
+ syntax<out AlanSyntax syntaxList>						(. int start; .)
+ 	= "syntax"											(. start = t.pos; syntaxList = new AlanSyntax("Syntax", start, 0);.)
+ 		syntaxitem<out AlanSyntax syntax>				(. syntaxList.add(syntax); .)
+ 			{
+ 				syntaxitem<out AlanSyntax syntax2>		(. syntaxList.add(syntax2); .)
+ 			}											(. syntaxList.length = t.pos-start+t.val.length(); .)
+    .
+
+ syntaxitem<out AlanSyntax syntax>						(. int start; String name; .)
+ 	= ID												(. start = t.pos; name = t.val; .)
+ 		"=" syntaxelements optionalsyntaxrestrictions	(. syntax = new AlanSyntax(name, start, t.pos-start+t.val.length()); .)
+            .
+
+ syntaxelements = syntaxelement { syntaxelement }
+                .
+
+ syntaxelement = ID 
+               | "(" ID ")" ["*"|"!"|"*!"|"!*"]
+               .
+
+ syntaxrestrictionclauses = syntaxrestriction { "and" syntaxrestriction }
+                          .
+
+ syntaxrestriction = ID "isa" restrictionclass "else" statements 
+                   .
+
+ restrictionclass = ID 
+                  | "container" 
+                  .
+
+ optionalsyntaxrestrictions = '.' 
+                            | "where" syntaxrestrictionclauses 
+                            .
+
+ verb<out AlanVerb verb>								(. int start; String name; .)
+ 	= "verb"											(. start = t.pos; .)
+ 		idlist<out Token firstId>						(. name = firstId.val; .)
+ 		verbbody verbtail 								(. verb = new AlanVerb(name, start, t.pos-start+t.val.length()); .)
+      .
+
+ verbbody = simpleverbbody 
+          | verbalternatives 
+          .
+
+ verbalternatives = verbalternative { verbalternative }
+                  .
+
+ verbalternative = "when" ID simpleverbbody 
+                 .
+
+ simpleverbbody = [ checks ] [ does ] 
+                .
+
+ verbtail = "end" "verb" [ID] '.' 
+          .
+
+ checks = "check" ( statements | checklist )
+        .
+
+ checklist = check { "and" check }
+           .
+
+ check = expression "else" statements 
+       .
+
+ does = "does" optionalqual statements 
+      .
+
+ classdeclaration<out AlanClass declaration>			(. int start; .)
+	= "every"											(. start = t.pos; .)
+		ID												(. declaration = new AlanClass(t.val, start, 0); .)
+ 		[
+ 			heritage<out AlanHeritage heritage>			(. declaration.add(heritage); .)
+ 		]
+ 		{
+ 			property<out AlanModelList property>		(. declaration.add(property); .)
+ 		}
+		classtail										(. declaration.length = t.pos-start+t.val.length(); .)
+	.
+
+ classtail = "end" "every" [ID] ['.'] 
+           .
+
+ addition<out AlanAddition addition>					(. int start; .)
+	= "add"												(. start = t.pos; .)
+		"to" ["every"]
+		ID												(. addition = new AlanAddition(t.val, start, 0); .)
+ 		[
+ 			heritage<out AlanHeritage heritage>			(. addition.add(heritage); .)
+ 		]
+		{
+ 			property<out AlanModelList property>		(. addition.add(property); .)
+		}
+		addtail						 					(. addition.length = t.pos-start+t.val.length(); .)
+	.
+
+ addtail = "end" "add" ["to"] [ID] ['.'] 
+         .
+
+ instance<out AlanInstance declaration>					(. int start; .)
+ 	= "the"												(. start = t.pos; .)
+ 		ID												(. declaration = new AlanInstance(t.val, start, 0); .)
+ 		[
+ 			heritage<out AlanHeritage heritage>			(. declaration.add(heritage); .)
+ 		]
+ 		{
+ 			property<out AlanModelList property>		(. declaration.add(property); .)
+ 		}
+ 		instancetail 									(. declaration.length = t.pos-start+t.val.length(); .)
+    .
+
+ instancetail = "end" "the" [ID] ['.'] 
+              .
+
+ heritage<out AlanHeritage heritage>					(. int start; .)
+ 	 = "isa"											(. start = t.pos; .)
+ 	 	ID												(. heritage = new AlanHeritage(t.val, start, t.pos-start+t.val.length()); .)
+ 	 	['.']
+     .
+
+ property<out AlanModelList property>						(. property = null; .)
+	= where ['.']
+	| is attributes<out AlanModelList attributes>			(. property = attributes; .)
+	| description
+	| name
+	| pronoun
+	| initialize
+	| mentioned
+	| "definite" articleorform
+	| ["indefinite"] articleorform
+	| "negative" articleorform 
+	| containerproperties
+	| verb<out AlanVerb verb> 
+	| script
+	| entered
+	| exit
+          .
+
+ exit
+ 	= "exit" idlist<out Token firstId>
+		"to" ID [exitbody] '.' 
+    .
+
+ exitbody = [ checks ] [ does ] "end" "exit" [ID] 
+          .
+
+ is = "is" 
+    | "are" 
+    | "has"
+    | "can"
+    .
+
+ description = "description" ( [ checks ] [ does ] | statements )
+             .
+
+ articleorform = article 
+               | form 
+               .
+
+ article = "article" [ statements ]
+         .
+
+ form = "form" [ statements ]
+      .
+
+ entered = "entered" statements 
+         .
+
+ initialize = "initialize" statements 
+            .
+
+ mentioned = "mentioned" statements 
+           .
+
+ name = "name" ids ['.']
+      .
+
+ pronoun
+ 	= "pronoun" idlist<out Token firstId>
+ 		 ['.']
+    .
+
+ containerproperties = ["with"] ["opaque"] "container" containerbody 
+                     .
+
+ containerbody = [taking] [limits] [header] [empty] [extract] 
+               | '.' 
+               .
+
+ taking = "taking" ID '.' 
+        .
+
+ limits = "limits" limitlist 
+        .
+
+ limitlist = limit { limit }
+           .
+
+ limit = limitattribute elseorthen statements 
+       .
+
+ elseorthen = "else" 
+            | "then" 
+            .
+
+ limitattribute = attributedefinition<out AlanAttribute attribute> 
+                | "count" Integer 
+                .
+
+ header = "header" statements 
+        .
+
+ empty = "else" statements 
+       .
+
+ extract = "extract" ( [ checks ] [ does ] | statements )
+         .
+
+ event<out AlanEvent event>							(. String name; int start; .)
+ 	= "event"										(. start = t.pos; .)
+ 		ID											(. name = t.val; .)
+ 		statements eventtail 						(. event = new AlanEvent(name, start, t.pos-start+t.val.length()); .)
+       .
+
+ eventtail = "end" "event" [ID] '.' 
+           .
+
+ script = "script" ID ['.'] [description] steplist 
+        .
+
+ steplist = step { step }
+          .
+
+ step = "step" [stepcondition] statements
+      .
+
+ stepcondition = "after" expression
+               | "wait" "until" expression
+               .
+
+ rule<out AlanRule rule>							(. int start; .)
+	= "when"										(. start = t.pos; .)
+		expression then statements [endwhen] 		(. rule = new AlanRule(start, t.pos-start+t.val.length()); .)
+         .
+
+ then = "=>" 
+      | "then" 
+      .
+
+ endwhen = "end" "when" ['.']
+         .
+
+ start<out AlanModel startsection>				(. int start; .)
+ 	= "start"									(. start = t.pos; .)
+ 		where '.' [statements]					(. startsection = new AlanStart(start, t.pos-start+t.val.length()); .)
+    .
+
+ statements = statement { statement }
+            .
+
+ statement = outputstatement 
+           | specialstatement 
+           | manipulationstatement 
+           | actorstatement 
+           | eventstatement 
+           | assignmentstatement 
+           | repetitionstatement 
+           | conditionalstatement 
+           .
+
+ outputstatement = STRING 
+                 | "describe" what '.' 
+                 | "say" [sayform] expression '.' 
+                 | "list" primary '.' 
+                 | "show" ID '.' 
+                 | "play" ID '.' 
+                 | "style" ID '.' 
+                 .
+
+ sayform = "the" 
+         | "an" 
+         | "it"
+         | "no"
+         .
+
+ manipulationstatement = "empty" primary [where] '.' 
+                       | "locate" primary where '.' 
+                       | "include" primary "in" what '.' 
+                       | "exclude" primary "from" what '.' 
+                       .
+
+ eventstatement = "cancel" what '.' 
+                | "schedule" what [where] "after" expression '.' 
+                .
+
+ assignmentstatement = "make" primary something '.' 
+                     | "strip" [firstorlast] [expression] 
+                           [wordorcharacter] "from" expression 
+                           [into] '.' 
+                     | "increase" what ["by" expression] '.' 
+                     | "decrease" what ["by" expression] '.' 
+                     | "set" what "to" expression '.' 
+                     .
+
+ firstorlast = "first"
+             | "last" 
+             .
+
+ wordorcharacter = "word" 
+                 | "words" 
+                 | "character" 
+                 | "characters" 
+                 .
+
+ into = "into" expression 
+      .
+
+ conditionalstatement = ifstatement 
+                         | dependingstatement 
+                          .
+
+ ifstatement = "if" expression "then" statements 
+                   [elsiflist] [elsepart] "end" "if" 
+                   '.' 
+             .
+
+ elsiflist = "elsif" expression "then" statements { "elsif" expression "then" statements }
+               .
+
+ elsepart = "else" statements 
+          .
+
+ dependingstatement = "depending" "on" primary dependcases "end" 
+                          genSym12 '.' 
+                        .
+
+ genSym12 = "depend" 
+          | "depending" 
+          .
+
+ dependcases = dependcase { dependcase }
+             .
+
+ dependcase = "else" statements 
+            | righthandside "then" statements 
+            .
+
+ repetitionstatement = foreach ID [loopfilters] "do" 
+                           statements "end" foreach ['.']
+                     .
+
+ loopfilters = filters 
+             | "between" factor "and" factor 
+             .
+
+ foreach = "for" [ "each" ]
+         | "each" 
+         .
+
+ actorstatement = "stop" what '.' 
+                   | "use" "script" ID [foractor] '.' 
+                    .
+
+ foractor = "for" what 
+          .
+
+ specialstatement = "quit" '.' 
+                     | "look" '.' 
+                     | "save" '.' 
+                     | "restore" '.' 
+                     | "restart" '.' 
+                     | "score" [Integer] '.' 
+                     | "visits" Integer '.' 
+                     | "system" STRING '.' 
+                      .
+
+ expression = term { "or" expression }
+            .
+
+ term = factor { "and" term }
+      .
+
+ factor = factorleft [["not"] factorright]
+        .
+
+ factorleft = primary
+            | aggregate filters 
+            .
+
+ factorright = "isa" ID 
+             | is something 
+             | binop factor
+             | where 
+             | relop factor 
+             | "contains" factor 
+             | "between" factor "and" factor 
+             .
+
+ filters = filter { "," filter }
+         .
+
+ filter = ["not"] ( where | "isa" ID )
+        | is something 
+        .
+
+ righthandside = filter 
+               | ["not"] realrighthandside
+               .
+
+ realrighthandside = relop primary 
+                   | "contains" factor 
+                   | "between" factor "and" factor 
+                   .
+
+ primary = ["-"] Integer 
+         | STRING 
+         | what 
+         | "score" 
+         | "{" [setmembers] "}" 
+         | "(" expression ")" 
+         | "random" randomwhat
+         .
+
+ randomwhat = ["directly"] "in" primary 
+            | primary "to" primary 
+            .
+
+ aggregate = "count" 
+           | aggregator "of" ID 
+           .
+
+ aggregator = "max" 
+            | "min" 
+            | "sum" 
+            .
+
+ something = ["not"] ID 
+           .
+
+ what = simplewhat { (':'|"of") what }
+      .
+
+ simplewhat = ID
+            | "this" 
+            | "current" ( "actor" | "location" )
+            .
+
+ where = [ "directly" ] properwhere
+       .
+
+ properwhere = "here" 
+             | "nearby" 
+             | "at" primary 
+             | "in" primary 
+             | "near" what 
+             .
+
+ binop = "+" 
+         | "-" 
+         | "*" 
+         | "/" 
+          .
+
+ relop = "<>" 
+         | "=" 
+         | "==" 
+         | ">=" 
+         | "<=" 
+         | ">" 
+         | "<" 
+          .
+
+ optionalqual = 
+              | "before" 
+              | "after" 
+              | "only" 
+              .
+
+ ids = ID { ID }
+     .
+
+ idlist<out Token firstId>
+ 	= ID											(. firstId = t; .)
+ 		{ "," ID }
+    .
+
+ ID = Identifier 
+    | "location"
+    | "actor"
+    | "opaque" 
+    | "on" 
+    | "it" 
+    | "of" 
+    | "first" 
+    | "into" 
+    | "taking" 
+    .
+
+END adventure.
+

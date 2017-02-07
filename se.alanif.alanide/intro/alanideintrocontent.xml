@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+	<extensionContent id="sealanifalanide-overviewExtension"
+		name="AlanIDE" path="overview/@">
+		<group style-id="content-group" id="sealanifalanide-overview-group">
+			<link label="AlanIDE Overview"
+				url="http://org.eclipse.ui.intro/showPage?id=sealanifalanide-alanideoverview"
+				style-id="content-link">
+				<text>AlanIDE is an Integrated Development Environment
+					supporting authoring of interactive fiction and text adventures
+					using the Alan special purpose language.
+				</text>
+			</link>
+			<link label="Alan Overview"
+				url="http://org.eclipse.ui.intro/showPage?id=sealanifalanide-alanoverview"
+				style-id="content-link">
+				<text>Alan is a special purpose declarative language for authoring
+					of interactive fiction, a.k.a text adventures.
+				</text>
+			</link>
+		</group>
+	</extensionContent>
+	<extensionContent id="sealanifalanide-webresourcesExtension"
+		name="AlanIDE" path="webresources/@">
+		<group style-id="content-group" id="sealanifalanide-webresources-group">
+			<link label="Alan Home Page" url="http://www.alanif.se"
+				style-id="content-link">
+				<text>This is the main Alan site on the web, providing you with helpful information, tips and
+					tricks on development using Alan.
+				</text>
+			</link>
+		</group>
+	</extensionContent>
+	<extensionContent id="sealanifalanide-whatsnewExtension"
+		name="AlanIDE" path="whatsnew/@">
+		<group style-id="content-group" id="sealanifalanide-whatsnew-group">
+        	<html src="whatsnew.html" type="inline" />
+		</group>
+		<group style-id="content-group" id="sealanifalanide-whatsnew-group">
+			<link label="History of changes in Alan and AlanIDE"
+				url="http://www.alanif.se/joomla/index.php/changes/" style-id="content-link">
+				<text>Read about the changes to Alan and the AlanIDE on the Alan Home Page.
+				</text>
+			</link>
+		</group>
+	</extensionContent>
+	<extensionContent id="sealanifalanide-firststepsExtension"
+		name="AlanIDE" path="firststeps/@">
+		<group style-id="content-group" id="sealanifalanide-firststeps-group">
+			<link label="AlanIDE First Steps"
+				url="http://org.eclipse.ui.intro/showPage?id=sealanifalanide-firststeps"
+				style-id="content-link">
+				<text>First steps working with the AlanIDE.</text>
+			</link>
+		</group>
+	</extensionContent>
+	<page id="sealanifalanide-alanideoverview" content="alanideoverview.xml" />
+	<page id="sealanifalanide-alanoverview" content="alanoverview.xml" />
+	<page id="sealanifalanide-whatsnew" content="whatsnew.xml" />
+	<page id="sealanifalanide-firststeps" content="firststeps.xml" />
+</introContent>
