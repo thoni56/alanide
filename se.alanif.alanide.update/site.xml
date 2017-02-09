@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/se.alanif.alanide.feature_0.1.5.jar" id="se.alanif.alanide.feature" version="0.1.5">
+      <category name="se.alanif.alanide"/>
+   </feature>
+   <category-def name="se.alanif.alanide" label="AlanIDE"/>
+</site>
