@@ -50,10 +50,6 @@
          name="startupProgressRect"
          value="0,320,532,10">
    </property>
-   <property
-         name="preferenceCustomization"
-         value="plugin_customization.ini">
-   </property>
 		</product>
 	</extension>
 	<extension point="org.eclipse.core.runtime.preferences">
