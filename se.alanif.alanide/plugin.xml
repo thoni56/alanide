@@ -199,7 +199,7 @@
          </presentation>
       </config>
       <config
-            content="rootIntroContent.xml"
+            content="intro/rootIntroContent.xml"
             id="se.alanif.alanide.introConfigId"
             introId="se.alanif.alanide.intro">
          <presentation
@@ -222,4 +222,12 @@
          id="org.eclipse.ui.views.ProgressView">
    </view>
 </extension>
-   </plugin>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/alan16x16.gif"
+            id="se.alanif.alanide.folderimage"
+            natureId="se.alanif.alanide.AlanNature">
+      </image>
+   </extension>
+</plugin>
