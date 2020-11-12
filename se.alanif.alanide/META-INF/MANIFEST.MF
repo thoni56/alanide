@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AlanIDE
 Bundle-SymbolicName: se.alanif.alanide;singleton:=true
-Bundle-Version: 0.1.5
+Bundle-Version: 0.1.6
 Bundle-Activator: se.alanif.alanide.AlanIDEPlugin
 Bundle-Vendor: alanif.se
 Bundle-Localization: plugin

@@ -40,19 +40,18 @@ public class AlanIDEWorkbenchAdvisor extends WorkbenchAdvisor {
 		final String EVIEW16 = "eview16/";
 		
 		// Icons for navigator view
-		declareWorkbenchImage(configurer, IDE.SharedImages.IMG_OBJ_PROJECT, ICONS_PATH + OBJ16 + "prj_obj.gif");	//$NON-NLS-1$
-		declareWorkbenchImage(configurer, IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED, ICONS_PATH + OBJ16 + "cprj_obj.gif");	//$NON-NLS-1$
+		declareWorkbenchImage(configurer, IDE.SharedImages.IMG_OBJ_PROJECT, ICONS_PATH + OBJ16 + "prj_obj.png");	//$NON-NLS-1$
+		declareWorkbenchImage(configurer, IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED, ICONS_PATH + OBJ16 + "cprj_obj.png");	//$NON-NLS-1$
 		
 		// Icons for markers
-		// TODO Get our own images
-        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_OBJS_ERROR_PATH, ICONS_PATH + OBJ16 + "error_tsk.gif"); //$NON-NLS-1$
-        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_OBJS_WARNING_PATH, ICONS_PATH + OBJ16 + "warn_tsk.gif"); //$NON-NLS-1$
-        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_OBJS_INFO_PATH, ICONS_PATH + OBJ16 + "info_tsk.gif"); //$NON-NLS-1$
+        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_OBJS_ERROR_PATH, ICONS_PATH + OBJ16 + "error_tsk.png"); //$NON-NLS-1$
+        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_OBJS_WARNING_PATH, ICONS_PATH + OBJ16 + "warn_tsk.png"); //$NON-NLS-1$
+        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_OBJS_INFO_PATH, ICONS_PATH + OBJ16 + "info_tsk.png"); //$NON-NLS-1$
 
         // Icons for ProblemView title icon for the states
-		declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEMS_VIEW, ICONS_PATH + EVIEW16 + "problems_view.gif"); //$NON-NLS-1$
-        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEMS_VIEW_WARNING, ICONS_PATH + EVIEW16 + "problems_view_warning.gif"); //$NON-NLS-1$
-        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEMS_VIEW_ERROR, ICONS_PATH + EVIEW16 + "problems_view_error.gif"); //$NON-NLS-1$
+		declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEMS_VIEW, ICONS_PATH + EVIEW16 + "problems_view.png"); //$NON-NLS-1$
+        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEMS_VIEW_WARNING, ICONS_PATH + EVIEW16 + "problems_view_warning.png"); //$NON-NLS-1$
+        declareWorkbenchImage(configurer, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEMS_VIEW_ERROR, ICONS_PATH + EVIEW16 + "problems_view_error.png"); //$NON-NLS-1$
 
 	}
  
