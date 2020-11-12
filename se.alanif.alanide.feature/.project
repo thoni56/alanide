@@ -3,6 +3,7 @@
 	<name>se.alanif.alanide.feature</name>
 	<comment></comment>
 	<projects>
+		<project>alanide</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

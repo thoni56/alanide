@@ -24,18 +24,6 @@ or implied.
       <update label="AlanIDE Update Site" url="http://alanif.se/updates/alanide"/>
    </url>
 
-   <includes
-         id="org.eclipse.e4.rcp"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.equinox.p2.rcp.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
@@ -56,7 +44,6 @@ or implied.
       <import plugin="org.eclipse.ui.intro.universal"/>
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.search"/>
-      <import plugin="org.eclipse.equinox.ds"/>
    </requires>
 
    <plugin
