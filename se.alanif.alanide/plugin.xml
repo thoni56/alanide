@@ -84,7 +84,7 @@
 	<extension point="org.eclipse.ui.editors">
 		<editor class="se.alanif.alanide.editors.AlanEditor"
 			contributorClass="se.alanif.alanide.editors.AlanEditorActionContributor"
-			extensions="alan, i" icon="icons/alan_doc.gif" id="se.alanif.alanide.alanEditor"
+			extensions="alan, i" icon="icons/alan_doc.png" id="se.alanif.alanide.alanEditor"
 			name="Alan Editor">
 		</editor>
 	</extension>

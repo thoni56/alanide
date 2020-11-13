@@ -251,8 +251,8 @@ class StartStates {
 public class Scanner {
 	static final char EOL = '\n';
 	static final int  eofSym = 0;
-	static final int maxT = 146;
-	static final int noSym = 146;
+	static final int maxT = 151;
+	static final int noSym = 151;
 	char valCh;       // current input character (for token.val)
 
 	public Buffer buffer; // scanner buffer
@@ -306,121 +306,126 @@ public class Scanner {
 		literals.put("not", new Integer(6));
 		literals.put("option", new Integer(7));
 		literals.put("options", new Integer(8));
-		literals.put("prompt", new Integer(10));
-		literals.put("import", new Integer(11));
-		literals.put("synonyms", new Integer(16));
-		literals.put("message", new Integer(18));
-		literals.put("syntax", new Integer(20));
-		literals.put("and", new Integer(27));
-		literals.put("isa", new Integer(28));
-		literals.put("else", new Integer(29));
-		literals.put("where", new Integer(30));
-		literals.put("verb", new Integer(31));
-		literals.put("when", new Integer(32));
-		literals.put("end", new Integer(33));
-		literals.put("check", new Integer(34));
-		literals.put("does", new Integer(35));
-		literals.put("every", new Integer(36));
-		literals.put("add", new Integer(37));
-		literals.put("to", new Integer(38));
-		literals.put("the", new Integer(39));
-		literals.put("definite", new Integer(40));
-		literals.put("indefinite", new Integer(41));
-		literals.put("negative", new Integer(42));
-		literals.put("exit", new Integer(43));
-		literals.put("is", new Integer(44));
-		literals.put("are", new Integer(45));
-		literals.put("has", new Integer(46));
-		literals.put("can", new Integer(47));
-		literals.put("description", new Integer(48));
-		literals.put("article", new Integer(49));
-		literals.put("form", new Integer(50));
-		literals.put("entered", new Integer(51));
-		literals.put("initialize", new Integer(52));
-		literals.put("mentioned", new Integer(53));
-		literals.put("name", new Integer(54));
-		literals.put("pronoun", new Integer(55));
-		literals.put("with", new Integer(56));
-		literals.put("taking", new Integer(57));
-		literals.put("limits", new Integer(58));
-		literals.put("then", new Integer(59));
-		literals.put("count", new Integer(60));
-		literals.put("header", new Integer(61));
-		literals.put("extract", new Integer(62));
-		literals.put("event", new Integer(63));
-		literals.put("script", new Integer(64));
-		literals.put("step", new Integer(65));
-		literals.put("after", new Integer(66));
-		literals.put("wait", new Integer(67));
-		literals.put("until", new Integer(68));
-		literals.put("start", new Integer(70));
-		literals.put("describe", new Integer(71));
-		literals.put("say", new Integer(72));
-		literals.put("list", new Integer(73));
-		literals.put("show", new Integer(74));
-		literals.put("play", new Integer(75));
-		literals.put("style", new Integer(76));
-		literals.put("an", new Integer(77));
-		literals.put("it", new Integer(78));
-		literals.put("no", new Integer(79));
-		literals.put("empty", new Integer(80));
-		literals.put("locate", new Integer(81));
-		literals.put("include", new Integer(82));
-		literals.put("in", new Integer(83));
-		literals.put("exclude", new Integer(84));
-		literals.put("from", new Integer(85));
-		literals.put("cancel", new Integer(86));
-		literals.put("schedule", new Integer(87));
-		literals.put("make", new Integer(88));
-		literals.put("strip", new Integer(89));
-		literals.put("increase", new Integer(90));
-		literals.put("by", new Integer(91));
-		literals.put("decrease", new Integer(92));
-		literals.put("set", new Integer(93));
-		literals.put("first", new Integer(94));
-		literals.put("last", new Integer(95));
-		literals.put("word", new Integer(96));
-		literals.put("words", new Integer(97));
-		literals.put("character", new Integer(98));
-		literals.put("characters", new Integer(99));
-		literals.put("into", new Integer(100));
-		literals.put("if", new Integer(101));
-		literals.put("elsif", new Integer(102));
-		literals.put("depending", new Integer(103));
-		literals.put("on", new Integer(104));
-		literals.put("depend", new Integer(105));
-		literals.put("do", new Integer(106));
-		literals.put("between", new Integer(107));
-		literals.put("for", new Integer(108));
-		literals.put("each", new Integer(109));
-		literals.put("stop", new Integer(110));
-		literals.put("use", new Integer(111));
-		literals.put("quit", new Integer(112));
-		literals.put("look", new Integer(113));
-		literals.put("save", new Integer(114));
-		literals.put("restore", new Integer(115));
-		literals.put("restart", new Integer(116));
-		literals.put("score", new Integer(117));
-		literals.put("visits", new Integer(118));
-		literals.put("system", new Integer(119));
-		literals.put("or", new Integer(120));
-		literals.put("contains", new Integer(121));
-		literals.put("random", new Integer(122));
-		literals.put("directly", new Integer(123));
-		literals.put("of", new Integer(124));
-		literals.put("max", new Integer(125));
-		literals.put("min", new Integer(126));
-		literals.put("sum", new Integer(127));
-		literals.put("this", new Integer(128));
-		literals.put("current", new Integer(129));
-		literals.put("actor", new Integer(130));
-		literals.put("location", new Integer(131));
-		literals.put("here", new Integer(132));
-		literals.put("nearby", new Integer(133));
-		literals.put("at", new Integer(134));
-		literals.put("near", new Integer(135));
-		literals.put("before", new Integer(144));
-		literals.put("only", new Integer(145));
+		literals.put("no", new Integer(9));
+		literals.put("prompt", new Integer(11));
+		literals.put("import", new Integer(12));
+		literals.put("synonyms", new Integer(17));
+		literals.put("message", new Integer(19));
+		literals.put("syntax", new Integer(21));
+		literals.put("and", new Integer(28));
+		literals.put("isa", new Integer(29));
+		literals.put("else", new Integer(30));
+		literals.put("where", new Integer(31));
+		literals.put("meta", new Integer(32));
+		literals.put("verb", new Integer(33));
+		literals.put("when", new Integer(34));
+		literals.put("end", new Integer(35));
+		literals.put("check", new Integer(36));
+		literals.put("does", new Integer(37));
+		literals.put("every", new Integer(38));
+		literals.put("add", new Integer(39));
+		literals.put("to", new Integer(40));
+		literals.put("the", new Integer(41));
+		literals.put("definite", new Integer(42));
+		literals.put("indefinite", new Integer(43));
+		literals.put("negative", new Integer(44));
+		literals.put("exit", new Integer(45));
+		literals.put("is", new Integer(46));
+		literals.put("are", new Integer(47));
+		literals.put("has", new Integer(48));
+		literals.put("can", new Integer(49));
+		literals.put("description", new Integer(50));
+		literals.put("article", new Integer(51));
+		literals.put("form", new Integer(52));
+		literals.put("entered", new Integer(53));
+		literals.put("initialize", new Integer(54));
+		literals.put("mentioned", new Integer(55));
+		literals.put("name", new Integer(56));
+		literals.put("pronoun", new Integer(57));
+		literals.put("with", new Integer(58));
+		literals.put("taking", new Integer(59));
+		literals.put("limits", new Integer(60));
+		literals.put("then", new Integer(61));
+		literals.put("count", new Integer(62));
+		literals.put("header", new Integer(63));
+		literals.put("extract", new Integer(64));
+		literals.put("event", new Integer(65));
+		literals.put("script", new Integer(66));
+		literals.put("step", new Integer(67));
+		literals.put("after", new Integer(68));
+		literals.put("wait", new Integer(69));
+		literals.put("until", new Integer(70));
+		literals.put("start", new Integer(72));
+		literals.put("describe", new Integer(73));
+		literals.put("say", new Integer(74));
+		literals.put("list", new Integer(75));
+		literals.put("show", new Integer(76));
+		literals.put("play", new Integer(77));
+		literals.put("style", new Integer(78));
+		literals.put("an", new Integer(79));
+		literals.put("it", new Integer(80));
+		literals.put("empty", new Integer(81));
+		literals.put("locate", new Integer(82));
+		literals.put("include", new Integer(83));
+		literals.put("in", new Integer(84));
+		literals.put("exclude", new Integer(85));
+		literals.put("from", new Integer(86));
+		literals.put("cancel", new Integer(87));
+		literals.put("schedule", new Integer(88));
+		literals.put("make", new Integer(89));
+		literals.put("strip", new Integer(90));
+		literals.put("increase", new Integer(91));
+		literals.put("by", new Integer(92));
+		literals.put("decrease", new Integer(93));
+		literals.put("set", new Integer(94));
+		literals.put("first", new Integer(95));
+		literals.put("last", new Integer(96));
+		literals.put("word", new Integer(97));
+		literals.put("words", new Integer(98));
+		literals.put("character", new Integer(99));
+		literals.put("characters", new Integer(100));
+		literals.put("into", new Integer(101));
+		literals.put("if", new Integer(102));
+		literals.put("elsif", new Integer(103));
+		literals.put("depending", new Integer(104));
+		literals.put("on", new Integer(105));
+		literals.put("depend", new Integer(106));
+		literals.put("do", new Integer(107));
+		literals.put("between", new Integer(108));
+		literals.put("for", new Integer(109));
+		literals.put("each", new Integer(110));
+		literals.put("stop", new Integer(111));
+		literals.put("use", new Integer(112));
+		literals.put("quit", new Integer(113));
+		literals.put("look", new Integer(114));
+		literals.put("save", new Integer(115));
+		literals.put("restore", new Integer(116));
+		literals.put("restart", new Integer(117));
+		literals.put("score", new Integer(118));
+		literals.put("transcript", new Integer(119));
+		literals.put("visits", new Integer(120));
+		literals.put("system", new Integer(121));
+		literals.put("off", new Integer(122));
+		literals.put("or", new Integer(123));
+		literals.put("contains", new Integer(124));
+		literals.put("random", new Integer(125));
+		literals.put("of", new Integer(126));
+		literals.put("max", new Integer(127));
+		literals.put("min", new Integer(128));
+		literals.put("sum", new Integer(129));
+		literals.put("this", new Integer(130));
+		literals.put("current", new Integer(131));
+		literals.put("actor", new Integer(132));
+		literals.put("location", new Integer(133));
+		literals.put("here", new Integer(134));
+		literals.put("nearby", new Integer(135));
+		literals.put("at", new Integer(136));
+		literals.put("near", new Integer(137));
+		literals.put("transitively", new Integer(138));
+		literals.put("directly", new Integer(139));
+		literals.put("indirectly", new Integer(140));
+		literals.put("before", new Integer(149));
+		literals.put("only", new Integer(150));
 
 	}
 	
@@ -558,61 +563,61 @@ public class Scanner {
 					if (ch == '"') {AddCh(); state = 5; break;}
 					else {t.kind = 3; break loop;}
 				case 7:
-					{t.kind = 9; break loop;}
+					{t.kind = 10; break loop;}
 				case 8:
-					{t.kind = 12; break loop;}
-				case 9:
 					{t.kind = 13; break loop;}
-				case 10:
+				case 9:
 					{t.kind = 14; break loop;}
-				case 11:
+				case 10:
 					{t.kind = 15; break loop;}
+				case 11:
+					{t.kind = 16; break loop;}
 				case 12:
-					{t.kind = 19; break loop;}
+					{t.kind = 20; break loop;}
 				case 13:
-					{t.kind = 21; break loop;}
-				case 14:
 					{t.kind = 22; break loop;}
+				case 14:
+					{t.kind = 23; break loop;}
 				case 15:
-					{t.kind = 25; break loop;}
-				case 16:
 					{t.kind = 26; break loop;}
+				case 16:
+					{t.kind = 27; break loop;}
 				case 17:
-					{t.kind = 69; break loop;}
+					{t.kind = 71; break loop;}
 				case 18:
-					{t.kind = 136; break loop;}
-				case 19:
-					{t.kind = 137; break loop;}
-				case 20:
-					{t.kind = 138; break loop;}
-				case 21:
-					{t.kind = 139; break loop;}
-				case 22:
-					{t.kind = 140; break loop;}
-				case 23:
 					{t.kind = 141; break loop;}
+				case 19:
+					{t.kind = 142; break loop;}
+				case 20:
+					{t.kind = 143; break loop;}
+				case 21:
+					{t.kind = 144; break loop;}
+				case 22:
+					{t.kind = 145; break loop;}
+				case 23:
+					{t.kind = 146; break loop;}
 				case 24:
-					recEnd = pos; recKind = 17;
+					recEnd = pos; recKind = 18;
 					if (ch == '>') {AddCh(); state = 17; break;}
 					else if (ch == '=') {AddCh(); state = 21; break;}
-					else {t.kind = 17; break loop;}
+					else {t.kind = 18; break loop;}
 				case 25:
-					recEnd = pos; recKind = 23;
-					if (ch == '!') {AddCh(); state = 15; break;}
-					else {t.kind = 23; break loop;}
-				case 26:
 					recEnd = pos; recKind = 24;
-					if (ch == '*') {AddCh(); state = 16; break;}
+					if (ch == '!') {AddCh(); state = 15; break;}
 					else {t.kind = 24; break loop;}
+				case 26:
+					recEnd = pos; recKind = 25;
+					if (ch == '*') {AddCh(); state = 16; break;}
+					else {t.kind = 25; break loop;}
 				case 27:
-					recEnd = pos; recKind = 143;
+					recEnd = pos; recKind = 148;
 					if (ch == '>') {AddCh(); state = 20; break;}
 					else if (ch == '=') {AddCh(); state = 23; break;}
-					else {t.kind = 143; break loop;}
+					else {t.kind = 148; break loop;}
 				case 28:
-					recEnd = pos; recKind = 142;
+					recEnd = pos; recKind = 147;
 					if (ch == '=') {AddCh(); state = 22; break;}
-					else {t.kind = 142; break loop;}
+					else {t.kind = 147; break loop;}
 
 			}
 		}

@@ -61,7 +61,7 @@ PRODUCTIONS
  options = ( "option" | "options" ) option { option }
          .
 
- option = ID [optionvalue] '.'
+ option =  [ "no" ] ID [optionvalue] '.'
         .
  
  optionvalue = ID 
@@ -191,7 +191,7 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
                             .
 
  verb<out AlanVerb verb>								(. int start; String name; .)
- 	= "verb"											(. start = t.pos; .)
+ 	= [ "meta" ] "verb"									(. start = t.pos; .)
  		idlist<out Token firstId>						(. name = firstId.val; .)
  		verbbody verbtail 								(. verb = new AlanVerb(name, start, t.pos-start+t.val.length()); .)
       .
@@ -305,7 +305,7 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
  is = "is" 
     | "are" 
     | "has"
-    | "can"
+    | "can" 
     .
 
  description = "description" ( [ checks ] [ does ] | statements )
@@ -389,7 +389,7 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
  steplist = step { step }
           .
 
- step = "step" [stepcondition] statements
+ step = "step" [stepcondition] [ '.' ] statements
       .
 
  stepcondition = "after" expression
@@ -528,9 +528,14 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
                      | "restore" '.' 
                      | "restart" '.' 
                      | "score" [Integer] '.' 
+                     | "transcript" onoroff '.' 
                      | "visits" Integer '.' 
                      | "system" STRING '.' 
                       .
+
+ onoroff = "on" 
+           | "off" 
+            .
 
  expression = term { "or" expression }
             .
@@ -579,7 +584,7 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
          | "random" randomwhat
          .
 
- randomwhat = ["directly"] "in" primary 
+ randomwhat = [transitivity] "in" primary 
             | primary "to" primary 
             .
 
@@ -603,15 +608,20 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
             | "current" ( "actor" | "location" )
             .
 
- where = [ "directly" ] properwhere
+ where = [ transitivity ] properwhere
        .
 
  properwhere = "here" 
              | "nearby" 
-             | "at" primary 
+             | "at" what 
              | "in" primary 
              | "near" what 
              .
+
+ transitivity = "transitively" 
+              | "directly" 
+              | "indirectly" 
+              .
 
  binop = "+" 
          | "-" 
@@ -646,12 +656,15 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
     | "location"
     | "actor"
     | "opaque" 
+    | "visits" 
+    | "contains" 
     | "on" 
     | "it" 
     | "of" 
     | "first" 
     | "into" 
     | "taking" 
+    | "off" 
     .
 
 END adventure.

@@ -61,7 +61,7 @@ PRODUCTIONS
  options = ( "option" | "options" ) option { option }
          .
 
- option = ID [optionvalue] '.'
+ option =  [ "no" ] ID [optionvalue] '.'
         .
  
  optionvalue = ID 
@@ -189,7 +189,7 @@ prompt = "prompt" statements
                             .
 
  verb<out AlanVerb verb>								(. int start; String name; .)
- 	= "verb"											(. start = t.pos; .)
+ 	= [ "meta" ] "verb"									(. start = t.pos; .)
  		idlist<out Token firstId>						(. name = firstId.val; .)
  		verbbody verbtail 								(. verb = new AlanVerb(name, start, t.pos-start+t.val.length()); .)
       .
@@ -387,7 +387,7 @@ prompt = "prompt" statements
  steplist = step { step }
           .
 
- step = "step" [stepcondition] statements
+ step = "step" [stepcondition] [ '.' ] statements
       .
 
  stepcondition = "after" expression
@@ -526,9 +526,14 @@ prompt = "prompt" statements
                      | "restore" '.' 
                      | "restart" '.' 
                      | "score" [Integer] '.' 
+                     | "transcript" onoroff '.' 
                      | "visits" Integer '.' 
                      | "system" STRING '.' 
                       .
+
+ onoroff = "on" 
+           | "off" 
+            .
 
  expression = term { "or" expression }
             .
@@ -577,7 +582,7 @@ prompt = "prompt" statements
          | "random" randomwhat
          .
 
- randomwhat = ["directly"] "in" primary 
+ randomwhat = [transitivity] "in" primary 
             | primary "to" primary 
             .
 
@@ -601,15 +606,20 @@ prompt = "prompt" statements
             | "current" ( "actor" | "location" )
             .
 
- where = [ "directly" ] properwhere
+ where = [ transitivity ] properwhere
        .
 
  properwhere = "here" 
              | "nearby" 
-             | "at" primary 
+             | "at" what 
              | "in" primary 
              | "near" what 
              .
+
+ transitivity = "transitively" 
+              | "directly" 
+              | "indirectly" 
+              .
 
  binop = "+" 
          | "-" 
@@ -644,12 +654,15 @@ prompt = "prompt" statements
     | "location"
     | "actor"
     | "opaque" 
+    | "visits" 
+    | "contains" 
     | "on" 
     | "it" 
     | "of" 
     | "first" 
     | "into" 
     | "taking" 
+    | "off" 
     .
 
 END adventure.

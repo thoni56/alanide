@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="AlanIDE" uid="se.alanif.alanide.product" id="se.alanif.alanide.alanide" application="se.alanif.alanide.application" version="0.1.5" useFeatures="false" includeLaunchers="true">
+<product name="AlanIDE" uid="se.alanif.alanide.product" id="se.alanif.alanide.alanide" application="se.alanif.alanide.application" version="0.1.6" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/about.gif"/>
