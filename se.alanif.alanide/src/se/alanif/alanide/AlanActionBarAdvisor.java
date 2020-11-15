@@ -2,6 +2,7 @@ package se.alanif.alanide;
 
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -14,6 +15,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
+import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
@@ -38,6 +40,7 @@ public class AlanActionBarAdvisor extends ActionBarAdvisor {
     private IWorkbenchAction pasteAction;
     private IAction copyAction;
 	private IWorkbenchAction introAction;
+	private MenuManager viewMenu;
 
     public AlanActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
@@ -82,6 +85,10 @@ public class AlanActionBarAdvisor extends ActionBarAdvisor {
         
         introAction = ActionFactory.INTRO.create(window);
         register(introAction);
+        
+        viewMenu = new MenuManager("Open View");
+        IContributionItem viewList = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
+        viewMenu.add(viewList);
 
     }
 
@@ -115,7 +122,8 @@ public class AlanActionBarAdvisor extends ActionBarAdvisor {
         
         // Window
         windowMenu.add(newWindowAction);
-
+        windowMenu.add(viewMenu);
+        
         // Help
         helpMenu.add(new GroupMarker("alanHelpStart"));
         helpMenu.add(introAction);
