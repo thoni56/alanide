@@ -2,7 +2,7 @@
 <feature
       id="se.alanif.alanide.feature"
       label="AlanIDE"
-      version="0.1.5"
+      version="0.1.6"
       provider-name="alanif.se"
       plugin="se.alanif.alanide">
 
@@ -44,6 +44,8 @@ or implied.
       <import plugin="org.eclipse.ui.intro.universal"/>
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.search"/>
+      <import plugin="org.eclipse.rcp"/>
+      <import plugin="com.google.guava"/>
    </requires>
 
    <plugin

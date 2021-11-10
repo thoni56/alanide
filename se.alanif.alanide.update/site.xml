@@ -3,5 +3,8 @@
    <feature url="features/se.alanif.alanide.feature_0.1.5.jar" id="se.alanif.alanide.feature" version="0.1.5">
       <category name="se.alanif.alanide"/>
    </feature>
+   <feature url="features/se.alanif.alanide.feature_0.1.6.jar" id="se.alanif.alanide.feature" version="0.1.6">
+      <category name="se.alanif.alanide"/>
+   </feature>
    <category-def name="se.alanif.alanide" label="AlanIDE"/>
 </site>
