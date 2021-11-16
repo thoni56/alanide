@@ -113,9 +113,9 @@ prompt = "prompt" statements
 	.
 
  attributevalue<out String kind>								(. kind = ""; .)
-	= [ "-" ] Integer											(. kind = "integer"; .)
-	| STRING													(. kind = "string"; .)
+	= STRING													(. kind = "string"; .)
 	| ID														(. kind = "reference"; .)
+	| [ "-" ] Integer											(. kind = "integer"; .)
 	| "{" [setmembers] "}"										(. kind = "set"; .)
 	.
 
@@ -123,8 +123,8 @@ prompt = "prompt" statements
             .
 
  setmember = what 
-           | [ "-" ] Integer 
            | STRING 
+           | [ "-" ] Integer 
            .
 
  synonyms<out AlanSynonym synonyms>							(. int start; .)
@@ -521,19 +521,19 @@ prompt = "prompt" statements
           .
 
  specialstatement = "quit" '.' 
-                     | "look" '.' 
-                     | "save" '.' 
-                     | "restore" '.' 
-                     | "restart" '.' 
-                     | "score" [Integer] '.' 
-                     | "transcript" onoroff '.' 
-                     | "visits" Integer '.' 
-                     | "system" STRING '.' 
-                      .
+                  | "look" '.' 
+                  | "save" '.' 
+                  | "restore" '.' 
+                  | "restart" '.' 
+                  | "score" [Integer] '.' 
+                  | "transcript" onoroff '.' 
+                  | "system" STRING '.' 
+                  | "visits" Integer '.' 
+                  .
 
  onoroff = "on" 
-           | "off" 
-            .
+         | "off" 
+         .
 
  expression = term { "or" expression }
             .
@@ -573,10 +573,10 @@ prompt = "prompt" statements
                    | "between" factor "and" factor 
                    .
 
- primary = ["-"] Integer 
-         | STRING 
+ primary = STRING 
          | what 
-         | "score" 
+         | "score"
+         | ["-"] Integer 
          | "{" [setmembers] "}" 
          | "(" expression ")" 
          | "random" randomwhat

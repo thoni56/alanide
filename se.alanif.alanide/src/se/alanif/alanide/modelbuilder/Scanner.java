@@ -306,7 +306,7 @@ public class Scanner {
 		literals.put("not", new Integer(6));
 		literals.put("option", new Integer(7));
 		literals.put("options", new Integer(8));
-		literals.put("no", new Integer(9));
+		literals.put("no", new Integer(10));
 		literals.put("prompt", new Integer(11));
 		literals.put("import", new Integer(12));
 		literals.put("synonyms", new Integer(17));
@@ -403,8 +403,8 @@ public class Scanner {
 		literals.put("restart", new Integer(117));
 		literals.put("score", new Integer(118));
 		literals.put("transcript", new Integer(119));
-		literals.put("visits", new Integer(120));
-		literals.put("system", new Integer(121));
+		literals.put("system", new Integer(120));
+		literals.put("visits", new Integer(121));
 		literals.put("off", new Integer(122));
 		literals.put("or", new Integer(123));
 		literals.put("contains", new Integer(124));
@@ -563,7 +563,7 @@ public class Scanner {
 					if (ch == '"') {AddCh(); state = 5; break;}
 					else {t.kind = 3; break loop;}
 				case 7:
-					{t.kind = 10; break loop;}
+					{t.kind = 9; break loop;}
 				case 8:
 					{t.kind = 13; break loop;}
 				case 9:

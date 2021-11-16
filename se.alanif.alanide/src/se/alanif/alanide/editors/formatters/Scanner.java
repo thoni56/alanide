@@ -403,8 +403,8 @@ public class Scanner {
 		literals.put("restart", new Integer(117));
 		literals.put("score", new Integer(118));
 		literals.put("transcript", new Integer(119));
-		literals.put("visits", new Integer(120));
-		literals.put("system", new Integer(121));
+		literals.put("system", new Integer(120));
+		literals.put("visits", new Integer(121));
 		literals.put("off", new Integer(122));
 		literals.put("or", new Integer(123));
 		literals.put("contains", new Integer(124));

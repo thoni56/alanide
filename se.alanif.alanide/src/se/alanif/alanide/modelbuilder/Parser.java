@@ -194,7 +194,7 @@ public class Parser {
 		Expect(72);
 		start = t.pos; 
 		where();
-		Expect(10);
+		Expect(9);
 		if (StartOf(3)) {
 			statements();
 		}
@@ -203,14 +203,22 @@ public class Parser {
 	}
 
 	void option() {
-		if (la.kind == 9) {
-			Get();
-		}
-		ID();
 		if (StartOf(4)) {
-			optionvalue();
-		}
-		Expect(10);
+			ID();
+			Expect(9);
+		} else if (la.kind == 10) {
+			Get();
+			ID();
+			Expect(9);
+		} else if (StartOf(4)) {
+			ID();
+			ID();
+			Expect(9);
+		} else if (StartOf(4)) {
+			ID();
+			Expect(2);
+			Expect(9);
+		} else SynErr(154);
 	}
 
 	void ID() {
@@ -231,7 +239,7 @@ public class Parser {
 			Get();
 			break;
 		}
-		case 120: {
+		case 121: {
 			Get();
 			break;
 		}
@@ -267,16 +275,8 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(154); break;
+		default: SynErr(155); break;
 		}
-	}
-
-	void optionvalue() {
-		if (StartOf(5)) {
-			ID();
-		} else if (la.kind == 2) {
-			Get();
-		} else SynErr(155);
 	}
 
 	AlanImport  importstatement() {
@@ -286,7 +286,7 @@ public class Parser {
 		start = t.pos; 
 		ID();
 		if (t.val.charAt(0) == '\'') name = t.val.substring(1, t.val.length()-1); else name = t.val; 
-		Expect(10);
+		Expect(9);
 		importDeclaration = new AlanImport(name, start, t.pos-start+t.val.length()); 
 		return importDeclaration;
 	}
@@ -308,7 +308,7 @@ public class Parser {
 		start = t.pos; 
 		AlanMessage message2 = message();
 		message = new AlanMessage("Messages", start, 0); message.add(message2); 
-		while (StartOf(5)) {
+		while (StartOf(4)) {
 			AlanMessage message3 = message();
 			message.add(message3); 
 		}
@@ -327,7 +327,7 @@ public class Parser {
 			AlanHeritage heritage = heritage();
 			declaration.add(heritage); 
 		}
-		while (StartOf(6)) {
+		while (StartOf(5)) {
 			AlanModelList property = property();
 			declaration.add(property); 
 		}
@@ -347,7 +347,7 @@ public class Parser {
 			AlanHeritage heritage = heritage();
 			declaration.add(heritage); 
 		}
-		while (StartOf(6)) {
+		while (StartOf(5)) {
 			AlanModelList property = property();
 			declaration.add(property); 
 		}
@@ -378,7 +378,7 @@ public class Parser {
 		start = t.pos; synonyms = new AlanSynonym("Synonyms", start, 0);
 		AlanSynonym synonym = synonym();
 		synonyms.add(synonym); 
-		while (StartOf(5)) {
+		while (StartOf(4)) {
 			AlanSynonym synonym2 = synonym();
 			synonyms.add(synonym2); 
 		}
@@ -393,7 +393,7 @@ public class Parser {
 		start = t.pos; syntaxList = new AlanSyntax("Syntax", start, 0);
 		AlanSyntax syntax = syntaxitem();
 		syntaxList.add(syntax); 
-		while (StartOf(5)) {
+		while (StartOf(4)) {
 			AlanSyntax syntax2 = syntaxitem();
 			syntaxList.add(syntax2); 
 		}
@@ -432,7 +432,7 @@ public class Parser {
 			AlanHeritage heritage = heritage();
 			addition.add(heritage); 
 		}
-		while (StartOf(6)) {
+		while (StartOf(5)) {
 			AlanModelList property = property();
 			addition.add(property); 
 		}
@@ -466,7 +466,7 @@ public class Parser {
 		attributes = new AlanModelList(); 
 		AlanAttribute attribute = attributedeclaration();
 		attributes.add(attribute); 
-		while (StartOf(7)) {
+		while (StartOf(6)) {
 			AlanAttribute attribute2 = attributedeclaration();
 			attributes.add(attribute2); 
 		}
@@ -477,7 +477,7 @@ public class Parser {
 		AlanAttribute  attribute;
 		AlanAttribute definition = attributedefinition();
 		attribute = definition; 
-		Expect(10);
+		Expect(9);
 		return attribute;
 	}
 
@@ -490,7 +490,7 @@ public class Parser {
 		}
 		ID();
 		if (!not) start = t.pos; name = t.val; 
-		if (StartOf(8)) {
+		if (StartOf(7)) {
 			String valueKind = attributevalue();
 			kind = valueKind; 
 		}
@@ -510,12 +510,12 @@ public class Parser {
 		} else if (la.kind == 3) {
 			Get();
 			kind = "string"; 
-		} else if (StartOf(5)) {
+		} else if (StartOf(4)) {
 			ID();
 			kind = "reference"; 
 		} else if (la.kind == 14) {
 			Get();
-			if (StartOf(9)) {
+			if (StartOf(8)) {
 				setmembers();
 			}
 			Expect(15);
@@ -533,15 +533,15 @@ public class Parser {
 	}
 
 	void setmember() {
-		if (StartOf(10)) {
+		if (StartOf(9)) {
 			what();
+		} else if (la.kind == 3) {
+			Get();
 		} else if (la.kind == 2 || la.kind == 13) {
 			if (la.kind == 13) {
 				Get();
 			}
 			Expect(2);
-		} else if (la.kind == 3) {
-			Get();
 		} else SynErr(157);
 	}
 
@@ -565,7 +565,7 @@ public class Parser {
 		Expect(18);
 		ID();
 		synonym = new AlanSynonym("for " + t.val, start, t.pos-start+t.val.length()); 
-		Expect(10);
+		Expect(9);
 		return synonym;
 	}
 
@@ -605,13 +605,13 @@ public class Parser {
 
 	void syntaxelements() {
 		syntaxelement();
-		while (StartOf(11)) {
+		while (StartOf(10)) {
 			syntaxelement();
 		}
 	}
 
 	void optionalsyntaxrestrictions() {
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		} else if (la.kind == 31) {
 			Get();
@@ -620,13 +620,13 @@ public class Parser {
 	}
 
 	void syntaxelement() {
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		} else if (la.kind == 22) {
 			Get();
 			ID();
 			Expect(23);
-			if (StartOf(12)) {
+			if (StartOf(11)) {
 				if (la.kind == 24) {
 					Get();
 				} else if (la.kind == 25) {
@@ -657,7 +657,7 @@ public class Parser {
 	}
 
 	void restrictionclass() {
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		} else if (la.kind == 5) {
 			Get();
@@ -675,10 +675,10 @@ public class Parser {
 	void verbtail() {
 		Expect(35);
 		Expect(33);
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		}
-		Expect(10);
+		Expect(9);
 	}
 
 	void simpleverbbody() {
@@ -707,7 +707,7 @@ public class Parser {
 		Expect(36);
 		if (StartOf(3)) {
 			statements();
-		} else if (StartOf(13)) {
+		} else if (StartOf(12)) {
 			checklist();
 		} else SynErr(162);
 	}
@@ -758,7 +758,7 @@ public class Parser {
 		start = t.pos; 
 		ID();
 		heritage = new AlanHeritage(t.val, start, t.pos-start+t.val.length()); 
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 		return heritage;
@@ -770,7 +770,7 @@ public class Parser {
 		switch (la.kind) {
 		case 84: case 134: case 135: case 136: case 137: case 138: case 139: case 140: {
 			where();
-			if (la.kind == 10) {
+			if (la.kind == 9) {
 				Get();
 			}
 			break;
@@ -846,10 +846,10 @@ public class Parser {
 	void classtail() {
 		Expect(35);
 		Expect(38);
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		}
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -860,10 +860,10 @@ public class Parser {
 		if (la.kind == 40) {
 			Get();
 		}
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		}
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -871,10 +871,10 @@ public class Parser {
 	void instancetail() {
 		Expect(35);
 		Expect(41);
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		}
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -900,7 +900,7 @@ public class Parser {
 
 	void description() {
 		Expect(50);
-		if (StartOf(14)) {
+		if (StartOf(13)) {
 			if (la.kind == 36) {
 				checks();
 			}
@@ -915,7 +915,7 @@ public class Parser {
 	void name() {
 		Expect(56);
 		ids();
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -923,7 +923,7 @@ public class Parser {
 	void pronoun() {
 		Expect(57);
 		Token firstId = idlist();
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -960,7 +960,7 @@ public class Parser {
 	void script() {
 		Expect(66);
 		ID();
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 		if (la.kind == 50) {
@@ -982,7 +982,7 @@ public class Parser {
 		if (la.kind == 35 || la.kind == 36 || la.kind == 37) {
 			exitbody();
 		}
-		Expect(10);
+		Expect(9);
 	}
 
 	void exitbody() {
@@ -994,7 +994,7 @@ public class Parser {
 		}
 		Expect(35);
 		Expect(45);
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		}
 	}
@@ -1015,13 +1015,13 @@ public class Parser {
 
 	void ids() {
 		ID();
-		while (StartOf(5)) {
+		while (StartOf(4)) {
 			ID();
 		}
 	}
 
 	void containerbody() {
-		if (StartOf(15)) {
+		if (StartOf(14)) {
 			if (la.kind == 59) {
 				taking();
 			}
@@ -1037,7 +1037,7 @@ public class Parser {
 			if (la.kind == 64) {
 				extract();
 			}
-		} else if (la.kind == 10) {
+		} else if (la.kind == 9) {
 			Get();
 		} else SynErr(168);
 	}
@@ -1045,7 +1045,7 @@ public class Parser {
 	void taking() {
 		Expect(59);
 		ID();
-		Expect(10);
+		Expect(9);
 	}
 
 	void limits() {
@@ -1065,7 +1065,7 @@ public class Parser {
 
 	void extract() {
 		Expect(64);
-		if (StartOf(16)) {
+		if (StartOf(15)) {
 			if (la.kind == 36) {
 				checks();
 			}
@@ -1079,7 +1079,7 @@ public class Parser {
 
 	void limitlist() {
 		limit();
-		while (StartOf(17)) {
+		while (StartOf(16)) {
 			limit();
 		}
 	}
@@ -1091,7 +1091,7 @@ public class Parser {
 	}
 
 	void limitattribute() {
-		if (StartOf(7)) {
+		if (StartOf(6)) {
 			AlanAttribute attribute = attributedefinition();
 		} else if (la.kind == 62) {
 			Get();
@@ -1110,10 +1110,10 @@ public class Parser {
 	void eventtail() {
 		Expect(35);
 		Expect(65);
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		}
-		Expect(10);
+		Expect(9);
 	}
 
 	void steplist() {
@@ -1128,7 +1128,7 @@ public class Parser {
 		if (la.kind == 68 || la.kind == 69) {
 			stepcondition();
 		}
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 		statements();
@@ -1156,7 +1156,7 @@ public class Parser {
 	void endwhen() {
 		Expect(35);
 		Expect(34);
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -1208,40 +1208,40 @@ public class Parser {
 		case 73: {
 			Get();
 			what();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 74: {
 			Get();
-			if (StartOf(18)) {
+			if (StartOf(17)) {
 				sayform();
 			}
 			expression();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 75: {
 			Get();
 			primary();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 76: {
 			Get();
 			ID();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 77: {
 			Get();
 			ID();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 78: {
 			Get();
 			ID();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		default: SynErr(175); break;
@@ -1252,27 +1252,27 @@ public class Parser {
 		switch (la.kind) {
 		case 113: {
 			Get();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 114: {
 			Get();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 115: {
 			Get();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 116: {
 			Get();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 117: {
 			Get();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 118: {
@@ -1280,25 +1280,25 @@ public class Parser {
 			if (la.kind == 2) {
 				Get();
 			}
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 119: {
 			Get();
 			onoroff();
-			Expect(10);
+			Expect(9);
 			break;
 		}
 		case 120: {
 			Get();
-			Expect(2);
-			Expect(10);
+			Expect(3);
+			Expect(9);
 			break;
 		}
 		case 121: {
 			Get();
-			Expect(3);
-			Expect(10);
+			Expect(2);
+			Expect(9);
 			break;
 		}
 		default: SynErr(176); break;
@@ -1309,27 +1309,27 @@ public class Parser {
 		if (la.kind == 81) {
 			Get();
 			primary();
-			if (StartOf(19)) {
+			if (StartOf(18)) {
 				where();
 			}
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 82) {
 			Get();
 			primary();
 			where();
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 83) {
 			Get();
 			primary();
 			Expect(84);
 			what();
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 85) {
 			Get();
 			primary();
 			Expect(86);
 			what();
-			Expect(10);
+			Expect(9);
 		} else SynErr(177);
 	}
 
@@ -1337,7 +1337,7 @@ public class Parser {
 		if (la.kind == 111) {
 			Get();
 			what();
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 112) {
 			Get();
 			Expect(66);
@@ -1345,7 +1345,7 @@ public class Parser {
 			if (la.kind == 109) {
 				foractor();
 			}
-			Expect(10);
+			Expect(9);
 		} else SynErr(178);
 	}
 
@@ -1353,16 +1353,16 @@ public class Parser {
 		if (la.kind == 87) {
 			Get();
 			what();
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 88) {
 			Get();
 			what();
-			if (StartOf(19)) {
+			if (StartOf(18)) {
 				where();
 			}
 			Expect(68);
 			expression();
-			Expect(10);
+			Expect(9);
 		} else SynErr(179);
 	}
 
@@ -1371,16 +1371,16 @@ public class Parser {
 			Get();
 			primary();
 			something();
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 90) {
 			Get();
 			if (la.kind == 95 || la.kind == 96) {
 				firstorlast();
 			}
-			if (StartOf(13)) {
+			if (StartOf(12)) {
 				expression();
 			}
-			if (StartOf(20)) {
+			if (StartOf(19)) {
 				wordorcharacter();
 			}
 			Expect(86);
@@ -1388,7 +1388,7 @@ public class Parser {
 			if (la.kind == 101) {
 				into();
 			}
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 91) {
 			Get();
 			what();
@@ -1396,7 +1396,7 @@ public class Parser {
 				Get();
 				expression();
 			}
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 93) {
 			Get();
 			what();
@@ -1404,27 +1404,27 @@ public class Parser {
 				Get();
 				expression();
 			}
-			Expect(10);
+			Expect(9);
 		} else if (la.kind == 94) {
 			Get();
 			what();
 			Expect(40);
 			expression();
-			Expect(10);
+			Expect(9);
 		} else SynErr(180);
 	}
 
 	void repetitionstatement() {
 		foreach();
 		ID();
-		if (StartOf(21)) {
+		if (StartOf(20)) {
 			loopfilters();
 		}
 		Expect(107);
 		statements();
 		Expect(35);
 		foreach();
-		if (la.kind == 10) {
+		if (la.kind == 9) {
 			Get();
 		}
 	}
@@ -1444,25 +1444,18 @@ public class Parser {
 			Get();
 		} else if (la.kind == 80) {
 			Get();
-		} else if (la.kind == 9) {
+		} else if (la.kind == 10) {
 			Get();
 		} else SynErr(182);
 	}
 
 	void primary() {
 		switch (la.kind) {
-		case 2: case 13: {
-			if (la.kind == 13) {
-				Get();
-			}
-			Expect(2);
-			break;
-		}
 		case 3: {
 			Get();
 			break;
 		}
-		case 1: case 4: case 59: case 80: case 95: case 101: case 105: case 120: case 122: case 124: case 126: case 130: case 131: case 132: case 133: {
+		case 1: case 4: case 59: case 80: case 95: case 101: case 105: case 121: case 122: case 124: case 126: case 130: case 131: case 132: case 133: {
 			what();
 			break;
 		}
@@ -1470,9 +1463,16 @@ public class Parser {
 			Get();
 			break;
 		}
+		case 2: case 13: {
+			if (la.kind == 13) {
+				Get();
+			}
+			Expect(2);
+			break;
+		}
 		case 14: {
 			Get();
-			if (StartOf(9)) {
+			if (StartOf(8)) {
 				setmembers();
 			}
 			Expect(15);
@@ -1538,7 +1538,7 @@ public class Parser {
 		}
 		Expect(35);
 		Expect(102);
-		Expect(10);
+		Expect(9);
 	}
 
 	void dependingstatement() {
@@ -1548,7 +1548,7 @@ public class Parser {
 		dependcases();
 		Expect(35);
 		genSym12();
-		Expect(10);
+		Expect(9);
 	}
 
 	void elsiflist() {
@@ -1571,7 +1571,7 @@ public class Parser {
 
 	void dependcases() {
 		dependcase();
-		while (StartOf(22)) {
+		while (StartOf(21)) {
 			dependcase();
 		}
 	}
@@ -1588,7 +1588,7 @@ public class Parser {
 		if (la.kind == 30) {
 			Get();
 			statements();
-		} else if (StartOf(23)) {
+		} else if (StartOf(22)) {
 			righthandside();
 			Expect(61);
 			statements();
@@ -1596,9 +1596,9 @@ public class Parser {
 	}
 
 	void righthandside() {
-		if (StartOf(24)) {
+		if (StartOf(23)) {
 			filter();
-		} else if (StartOf(25)) {
+		} else if (StartOf(24)) {
 			if (la.kind == 6) {
 				Get();
 			}
@@ -1618,7 +1618,7 @@ public class Parser {
 	}
 
 	void loopfilters() {
-		if (StartOf(24)) {
+		if (StartOf(23)) {
 			filters();
 		} else if (la.kind == 108) {
 			Get();
@@ -1638,7 +1638,7 @@ public class Parser {
 
 	void factor() {
 		factorleft();
-		if (StartOf(26)) {
+		if (StartOf(25)) {
 			if (la.kind == 6) {
 				Get();
 			}
@@ -1668,9 +1668,9 @@ public class Parser {
 	}
 
 	void factorleft() {
-		if (StartOf(27)) {
+		if (StartOf(26)) {
 			primary();
-		} else if (StartOf(28)) {
+		} else if (StartOf(27)) {
 			aggregate();
 			filters();
 		} else SynErr(192);
@@ -1775,24 +1775,24 @@ public class Parser {
 	}
 
 	void filter() {
-		if (StartOf(29)) {
+		if (StartOf(28)) {
 			if (la.kind == 6) {
 				Get();
 			}
-			if (StartOf(19)) {
+			if (StartOf(18)) {
 				where();
 			} else if (la.kind == 29) {
 				Get();
 				ID();
 			} else SynErr(197);
-		} else if (StartOf(30)) {
+		} else if (StartOf(29)) {
 			is();
 			something();
 		} else SynErr(198);
 	}
 
 	void realrighthandside() {
-		if (StartOf(31)) {
+		if (StartOf(30)) {
 			relop();
 			primary();
 		} else if (la.kind == 124) {
@@ -1807,13 +1807,13 @@ public class Parser {
 	}
 
 	void randomwhat() {
-		if (StartOf(32)) {
+		if (StartOf(31)) {
 			if (la.kind == 138 || la.kind == 139 || la.kind == 140) {
 				transitivity();
 			}
 			Expect(84);
 			primary();
-		} else if (StartOf(27)) {
+		} else if (StartOf(26)) {
 			primary();
 			Expect(40);
 			primary();
@@ -1841,7 +1841,7 @@ public class Parser {
 	}
 
 	void simplewhat() {
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			ID();
 		} else if (la.kind == 130) {
 			Get();
@@ -1886,23 +1886,22 @@ public class Parser {
 	private static final boolean[][] set = {
 		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,x,x, x,x,x,T, T,x,x,x, x,T,x,T, x,T,x,x, x,x,x,x, x,x,x,x, T,T,T,x, x,x,T,T, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,x,x, T,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, T,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,x, x,T,T,T, x,T,x,T, T,T,T,T, x,T,T,x, x,x,x,x, x,x,T,x, T,x,x,x, x,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,T,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,T,x, T,x,T,x, T,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,T,x, x,T,T,x, T,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,x,T, T,T,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,x, T,T,x,T, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,x,x,T, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,x,T, T,T,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
-		{x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, T,x,T,x, x,x,x,x, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,x,x,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
@@ -1911,7 +1910,7 @@ public class Parser {
 		{x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x},
 		{x,x,x,x, x,x,T,x, x,x,x,x, x,T,x,x, x,x,T,x, x,x,x,x, T,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x},
-		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,T,x, T,x,T,x, T,T,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,T,T, T,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,T,x, x,T,T,x, T,T,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
@@ -1950,8 +1949,8 @@ class Errors {
 			case 6: s = "not expected"; break;
 			case 7: s = "\"option\" expected"; break;
 			case 8: s = "\"options\" expected"; break;
-			case 9: s = "\"no\" expected"; break;
-			case 10: s = "\".\" expected"; break;
+			case 9: s = "\".\" expected"; break;
+			case 10: s = "\"no\" expected"; break;
 			case 11: s = "\"prompt\" expected"; break;
 			case 12: s = "\"import\" expected"; break;
 			case 13: s = "\"-\" expected"; break;
@@ -2061,8 +2060,8 @@ class Errors {
 			case 117: s = "\"restart\" expected"; break;
 			case 118: s = "\"score\" expected"; break;
 			case 119: s = "\"transcript\" expected"; break;
-			case 120: s = "\"visits\" expected"; break;
-			case 121: s = "\"system\" expected"; break;
+			case 120: s = "\"system\" expected"; break;
+			case 121: s = "\"visits\" expected"; break;
 			case 122: s = "\"off\" expected"; break;
 			case 123: s = "\"or\" expected"; break;
 			case 124: s = "\"contains\" expected"; break;
@@ -2095,8 +2094,8 @@ class Errors {
 			case 151: s = "??? expected"; break;
 			case 152: s = "invalid options"; break;
 			case 153: s = "invalid declaration"; break;
-			case 154: s = "invalid ID"; break;
-			case 155: s = "invalid optionvalue"; break;
+			case 154: s = "invalid option"; break;
+			case 155: s = "invalid ID"; break;
 			case 156: s = "invalid attributevalue"; break;
 			case 157: s = "invalid setmember"; break;
 			case 158: s = "invalid optionalsyntaxrestrictions"; break;

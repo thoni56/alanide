@@ -61,12 +61,11 @@ PRODUCTIONS
  options = ( "option" | "options" ) option { option }
          .
 
- option =  [ "no" ] ID [optionvalue] '.'
+ option = ID "." 
+        | "no" ID "." 
+        | ID ID "." 
+        | ID Integer "."
         .
- 
- optionvalue = ID 
-             | Integer
-             .
 
  declaration<out AlanModel declaration>							(. declaration = null; .)
      = importstatement<out AlanModel importDeclaration>			(. declaration = importDeclaration; .)
@@ -125,8 +124,8 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
             .
 
  setmember = what 
-           | [ "-" ] Integer 
            | STRING 
+           | [ "-" ] Integer 
            .
 
  synonyms<out AlanSynonym synonyms>							(. int start; .)
@@ -529,8 +528,8 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
                      | "restart" '.' 
                      | "score" [Integer] '.' 
                      | "transcript" onoroff '.' 
-                     | "visits" Integer '.' 
                      | "system" STRING '.' 
+                     | "visits" Integer '.' 
                       .
 
  onoroff = "on" 
@@ -575,10 +574,10 @@ importstatement<out AlanImport importDeclaration>				(. int start; String name; 
                    | "between" factor "and" factor 
                    .
 
- primary = ["-"] Integer 
-         | STRING 
+ primary = STRING 
          | what 
          | "score" 
+         | ["-"] Integer
          | "{" [setmembers] "}" 
          | "(" expression ")" 
          | "random" randomwhat

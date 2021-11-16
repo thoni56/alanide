@@ -21,7 +21,7 @@ or implied.
    </license>
 
    <url>
-      <update label="AlanIDE Update Site" url="http://alanif.se/updates/alanide"/>
+      <update label="AlanIDE Update Site" url="https://alanif.se/updates/alanide"/>
    </url>
 
    <requires>

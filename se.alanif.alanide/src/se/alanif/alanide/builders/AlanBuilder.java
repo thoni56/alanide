@@ -32,7 +32,7 @@ import se.alanif.alanide.AlanIDEPlugin;
 import se.alanif.alanide.preferences.IAlanPreferences;
 
 /**
- * @author Thomas Nilsson
+ * @author Thomas Nilefalk
  *
  */
 public class AlanBuilder extends IncrementalProjectBuilder {
@@ -201,9 +201,9 @@ public class AlanBuilder extends IncrementalProjectBuilder {
 			switch (severity[1].charAt(0)) {
 			case 'F':
 			case 'S': 
-			case 'E': map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR)); break;
-			case 'W': map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING)); break;
-			case 'I': map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_INFO)); break;
+			case 'E': map.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR); break;
+			case 'W': map.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING); break;
+			case 'I': map.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO); break;
 			}
 			if (container != null)
 				createMarker(container, map); 
@@ -240,13 +240,13 @@ public class AlanBuilder extends IncrementalProjectBuilder {
 			case 'F':
 			case 'S':
 			case 'E':
-				m.setAttribute(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
+				m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 				break;
 			case 'W':
-				m.setAttribute(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+				m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 				break;
 			case 'I':
-				m.setAttribute(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_INFO));
+				m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
 				break;
 			}
 		} catch (CoreException e) {}
